@@ -1,0 +1,12 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.landing-page {
+  background: url('/assets/bg.jpg') no-repeat center center;
+  background-size: cover;
+  width: 100vw;
+  height: 90vh;
+}
