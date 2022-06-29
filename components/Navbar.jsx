@@ -1,8 +1,15 @@
 import { useState } from 'react'
 import Link from 'next/link'
+import { useSelector, useDispatch } from 'react-redux'
+import { logout } from '../src/features/userSlice'
 
 function Navbar() {
   const [open, setOpen] = useState(false)
+
+  const userData = useSelector(state => state.user.data)
+
+  const dispatch = useDispatch()
+  // console.log(loggedIn)
   return (
     <nav className='flex items-center justify-between flex-wrap p-1 z-10 bg-gray-900'>
       <div className='flex items-center flex-shrink-0  mr-6'>
@@ -30,25 +37,44 @@ function Navbar() {
       <div
         className={`w-full cus-text-l ${
           open ? 'block' : 'hidden'
-        } flex-grow lg:flex lg:items-center lg:w-auto p-1`}
+        } flex-grow lg:flex lg:items-center lg:w-auto p-1 `}
       >
-        <div className='text-sm lg:flex-grow'>
-          <Link href='/home'>
-            <a className='block mt-4 lg:inline-block lg:mt-0 cus-text-d navlinks mr-4 text-md text-gray-100 font-semibold'>
-              Home
-            </a>
-          </Link>
+        <div className='text-sm lg:flex-grow w-full flex justify-end'>
+          {userData && userData.access ? (
+            <>
+              <Link href='/home'>
+                <a className='block mt-4 lg:inline-block lg:mt-0 cus-text-d navlinks mr-4 text-md text-gray-100 font-semibold'>
+                  Home
+                </a>
+              </Link>
 
-          <Link href='/login'>
-            <a className='block mt-4 lg:inline-block lg:mt-0 cus-text-d navlinks mr-4 text-md text-gray-100 font-semibold'>
-              Login
-            </a>
-          </Link>
-          <Link href='/register'>
-            <a className='block mt-4 lg:inline-block lg:mt-0 cus-text-d navlinks text-md text-gray-100 font-semibold'>
-              Register
-            </a>
-          </Link>
+              <Link href='/posts/new'>
+                <a className='block mt-4 lg:inline-block lg:mt-0 cus-text-d navlinks mr-4 text-md text-gray-100 font-semibold'>
+                  Add Post
+                </a>
+              </Link>
+
+              <a
+                className='block mt-4 lg:inline-block lg:mt-0 cus-text-d navlinks mr-4 text-md text-gray-100 font-semibold'
+                onClick={() => dispatch(logout())}
+              >
+                Logout
+              </a>
+            </>
+          ) : (
+            <>
+              <Link href='/register'>
+                <a className='block mt-4 lg:inline-block lg:mt-0 cus-text-d navlinks mr-4 text-md text-gray-100 font-semibold'>
+                  Register
+                </a>
+              </Link>
+              <Link href='/login'>
+                <a className='block mt-4 lg:inline-block lg:mt-0 cus-text-d navlinks text-md text-gray-100 font-semibold'>
+                  Login
+                </a>
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </nav>

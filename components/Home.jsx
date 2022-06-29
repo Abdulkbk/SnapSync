@@ -1,38 +1,27 @@
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/router'
 import Link from 'next/link'
-import { getAllPosts } from '../Query'
+import { useSelector, useDispatch } from 'react-redux'
+import { fetchPosts } from '../src/features/postSlice'
 
 function Home() {
-  const [post, setPost] = useState([
-    {
-      id: 1,
-      author: 'Abdullahi Yunus',
-      title: 'The new age',
-      content: 'Some text as the content',
-    },
-    {
-      id: 2,
-      author: 'Abdullahi Yunus',
-      title: 'The new age',
-      content: 'Some text as the content',
-    },
-    {
-      id: 3,
-      author: 'Abdullahi Yunus',
-      title: 'The new age',
-      content: 'Some text as the content',
-    },
-    {
-      id: 4,
-      author: 'Abdullahi Yunus',
-      title: 'The new age',
-      content: 'Some text as the content',
-    },
-  ])
+  const dispatch = useDispatch()
+  const post = useSelector(state => state.posts.posts)
+  const postStatus = useSelector(state => state.posts.status)
+  const userData = useSelector(state => state.user.data)
+  const router = useRouter()
 
   useEffect(() => {
-    getAllPosts()
+    if (postStatus === 'idle') {
+      dispatch(fetchPosts())
+    }
   }, [])
+
+  useEffect(() => {
+    if (!userData.access) {
+      router.push('/login')
+    }
+  }, [userData])
 
   const posts =
     post &&
