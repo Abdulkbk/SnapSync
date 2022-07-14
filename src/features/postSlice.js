@@ -9,7 +9,7 @@ const initialState = {
 
 export const fetchPosts = createAsyncThunk('posts/fetchPosts', async () => {
   const response = await getAllPosts()
-  // console.log('-----RES----:' + response)
+  console.log('-----RES----:' + response)
   return response
 })
 
@@ -42,7 +42,7 @@ export const postSlice = createSlice({
         state.status = 'idle'
         // Add any fetched posts to the array
         // console.log(action)
-        state.posts = action.payload
+        if (action.payload) state.posts = action.payload
       })
       .addCase(fetchPosts.rejected, (state, action) => {
         state.status = 'failed'
@@ -54,3 +54,6 @@ export const postSlice = createSlice({
 export const { postAdded, postUpdated, postDeleted } = postSlice.actions
 
 export default postSlice.reducer
+
+export const selectPostById = (state, postId) =>
+  state.posts.posts.find(post => post.id === parseInt(postId))

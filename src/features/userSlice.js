@@ -35,16 +35,21 @@ export const userSlice = createSlice({
     login: (state, action) => {
       if (action.payload.access) {
         state.data = action.payload
+        localStorage.setItem('user', JSON.stringify(state.data))
       } else {
         console.log(action)
       }
     },
     logout: state => {
       state.data = {}
+      localStorage.removeItem('user')
+    },
+    setUser: (state, action) => {
+      state.data = action.payload
     },
   },
 })
 
-export const { register, login, logout } = userSlice.actions
+export const { register, login, logout, setUser } = userSlice.actions
 
 export default userSlice.reducer

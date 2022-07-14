@@ -31,7 +31,7 @@ function Home() {
         key={item.id}
       >
         <div className='col-span-2 flex flex-col items-start w-full'>
-          <Link href=''>
+          <Link href={`/posts/${item.id}`}>
             <h1 className='font-semibold text-3xl text-gray-900'>
               {item.title}
             </h1>
@@ -41,8 +41,11 @@ function Home() {
           </p>
           <sub className='text-sm text-gray-400'>Posted by: {item.author}</sub>
         </div>
+        {/* {} */}
         <div className=''>
-          <h1 className=''>{item.content.slice(0, 2)}</h1>
+          <button className='' onClick={() => console.log('')}>
+            {item.content.slice(0, 2)}
+          </button>
         </div>
       </div>
     ))

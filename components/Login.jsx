@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { loginUser } from '../src/features/userSlice'
 import { useRouter } from 'next/router'
+import { setUser } from '../src/features/userSlice'
 
 export default function () {
   const [email, setEmail] = useState('')
@@ -17,6 +18,14 @@ export default function () {
     e.preventDefault()
     dispatch(loginUser({ email, password }))
   }
+
+  useEffect(() => {
+    const user = localStorage.getItem('user')
+    console.log(user)
+    if (user) {
+      dispatch(setUser(JSON.parse(user)))
+    }
+  }, [])
 
   useEffect(() => {
     if (userData.access) {
